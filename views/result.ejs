@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>酔いチェッカー：結果</title>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>現在のアルコール血中濃度</h1>
+        <h1>飲み物を追加</h1>
+        <form method="POST" action="/result">
+            <h2>お酒の種類を選択</h2>
+            <p>
+            <select name="percent" required>
+                <option value="">お酒を選択</option>
+                <option value="5">ビール</option>
+                <option value="2">サワー</option>
+                <option value="7">ハイボール</option>
+                <option value="8">果実酒(ロック)</option>
+                <option value="9">ストロングゼロ系</option>
+                <option value="12">シャンパン</option>
+                <option value="15">ワイン</option>
+                <option value="20">日本酒</option>
+                <option value="25">焼酎</option>
+                <option value="40">ウイスキー</option>
+
+            </select>
+            </p>
+            <h2>飲んだ量を入力</h2>
+            参考
+            <table border="1" align="center">
+                <tr>
+                    <th>ロング缶</th>
+                    <td>500ml</td>
+                </tr>
+                <tr>
+                    <th>ジョッキ</th>
+                    <td>350ml</td>
+                </tr>
+                <tr>
+                    <th>ジョッキ(氷あり)</th>
+                    <td>250ml</td>
+                </tr>
+                <tr>
+                    <th>ワイングラス</th>
+                    <td>125ml</td>
+                </tr>
+                <tr>
+                    <th>ショット</th>
+                    <td>30ml</td>
+                </tr>
+            </table>
+            <p><input type="number" name="quantity"></p>
+            <input type="submit" value="追加">
+        </form>
+    </div>
+    
+</body>
+</html>
