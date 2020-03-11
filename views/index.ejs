@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>酔いチェッカー</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
     <div role="main" style="text-align: center;">
       <h1>酔いチェッカー</h1>
+      <p>血中アルコール濃度から酔いの程度を判定します。</p>
       <p>体重を入力してスタート</p>
       <form method="GET" action="/result">
-        <input type="number" name="weight">
-        <input type="submit" value="スタート">
+        <input type="number" name="weight" required class="textbox">
+        <input type="submit" value="スタート" class="button">
       </form>
     </div>
   </body>
