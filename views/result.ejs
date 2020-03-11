@@ -6,13 +6,16 @@
     <title>酔いチェッカー：結果</title>
 </head>
 <body>
-    <div style="text-align: center;">
-        <p>総摂取アルコール量(g):<%= sum_alcohol_g %>g</p>
-        <p>現在の血中アルコール濃度は約<%= blood_alcohol_concentration %>%</p>
+    <div style="text-align: center;" class="stable">
+        <h1>現在の状態
+        </h1>
+        <p>総摂取アルコール量(g):<b><%= sum_alcohol_g %></b>g</p>
+        <p>現在の血中アルコール濃度は約<b><%= blood_alcohol_concentration %></b>%</p>
+        <p>酔いの程度は<b><%= stable %></b>です</p>
         <h1>飲み物を追加</h1>
         <form method="POST" action="/result">
-            <h2>お酒の種類を選択</h2>
             <p>
+                <h2>お酒の種類を選択</h2>
             <select name="percent" required>
                 <option value="">お酒を選択</option>
                 <option value="5">ビール</option>
@@ -28,6 +31,8 @@
 
             </select>
             </p>
+        </div>
+        <div style="text-align: center;" class="addition">
             <h2>飲んだ量を入力</h2>
             参考
             <table border="1" align="center">
