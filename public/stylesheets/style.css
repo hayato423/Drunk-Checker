@@ -28,7 +28,7 @@ h1{
 }
 
 .textbox{
-  width: 20%;
+  width: 60px;
     border-radius: 3px;
     border: 2px solid #ddd;
     box-sizing: border-box;

@@ -3,10 +3,11 @@ var router = express.Router();
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  if(req.session.weight != undefined){
-    res.redirect('/result');
+  if (req.session.weight != undefined) {
+    res.redirect("/result");
+  } else {
+    res.render("index");
   }
-  res.render("index");
 });
 
 let weight = 0;
@@ -15,11 +16,12 @@ let sum_alcohol_g = 0;
 let current_stable = "シラフ";
 let blood_alcohol_concentration = 0;
 
+//一度体重を入力していて再接続された場合
 router.get("/result", function(req, res, next) {
   data = {
-    sum_alcohol_g: sum_alcohol_g,
-    blood_alcohol_concentration: blood_alcohol_concentration,
-    stable: current_stable
+    sum_alcohol_g: req.session.sum_alcohol_g,
+    blood_alcohol_concentration: req.session.blood_alcohol_concentration,
+    stable: req.session.current_stable
   };
   res.render("result", data);
 });
@@ -27,9 +29,12 @@ router.get("/result", function(req, res, next) {
 router.post("/result", function(req, res, next) {
   if (req.session.weight == undefined) {
     weight = req.body["weight"];
+    blood_alcohol_concentration = 0;
+    sum_alcohol_g = 0;
+    current_stable = 0;
   }
   req.session.weight = weight;
-  if (req.body["percent"] != undefined && req.body["quantity"]) {
+  if (req.body["percent"] != undefined && req.body["quantity"] != undefined) {
     var percent = Number(req.body["percent"]);
     var drink_quantity = req.body["quantity"];
     //純アルコール量を計算
@@ -45,14 +50,19 @@ router.post("/result", function(req, res, next) {
     blood_alcohol_concentration =
       (sum_alcohol_g / (req.session.weight * 1000 * 0.66)) * 100;
     //小数第２位で四捨五入
-    blood_alcohol_concentration = Math.round(blood_alcohol_concentration * 100) / 100;
+    blood_alcohol_concentration =
+      Math.round(blood_alcohol_concentration * 100) / 100;
     sum_alcohol_g = Math.round(sum_alcohol_g * 100) / 100;
     current_stable = stable(blood_alcohol_concentration);
   }
+  //セッションに保存
+  req.session.blood_alcohol_concentration = blood_alcohol_concentration;
+  req.session.sum_alcohol_g = sum_alcohol_g;
+  req.session.current_stable = current_stable;
   var data = {
-    sum_alcohol_g: sum_alcohol_g,
-    blood_alcohol_concentration: blood_alcohol_concentration,
-    stable: current_stable
+    sum_alcohol_g: req.session.sum_alcohol_g,
+    blood_alcohol_concentration: req.session.blood_alcohol_concentration,
+    stable: req.session.current_stable
   };
   res.render("result", data);
 });
