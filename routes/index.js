@@ -13,7 +13,7 @@ router.get("/", function(req, res, next) {
 let weight = 0;
 let alcohol_g = 0;
 let sum_alcohol_g = 0;
-let current_stable = "シラフ";
+let current_status = "シラフ";
 let blood_alcohol_concentration = 0;
 
 //一度体重を入力していて再接続された場合
@@ -21,7 +21,8 @@ router.get("/result", function(req, res, next) {
   data = {
     sum_alcohol_g: req.session.sum_alcohol_g,
     blood_alcohol_concentration: req.session.blood_alcohol_concentration,
-    stable: req.session.current_stable
+    status: req.session.current_status,
+    msg : message(req.session.current_status)
   };
   res.render("result", data);
 });
@@ -31,7 +32,7 @@ router.post("/result", function(req, res, next) {
     weight = req.body["weight"];
     blood_alcohol_concentration = 0;
     sum_alcohol_g = 0;
-    current_stable = 0;
+    current_status = 'シラフ';
   }
   req.session.weight = weight;
   if (req.body["percent"] != undefined && req.body["quantity"] != undefined) {
@@ -53,50 +54,55 @@ router.post("/result", function(req, res, next) {
     blood_alcohol_concentration =
       Math.round(blood_alcohol_concentration * 100) / 100;
     sum_alcohol_g = Math.round(sum_alcohol_g * 100) / 100;
-    current_stable = stable(blood_alcohol_concentration);
+    current_status = status(blood_alcohol_concentration);
   }
   //セッションに保存
   req.session.blood_alcohol_concentration = blood_alcohol_concentration;
   req.session.sum_alcohol_g = sum_alcohol_g;
-  req.session.current_stable = current_stable;
+  req.session.current_status = current_status;
   var data = {
     sum_alcohol_g: req.session.sum_alcohol_g,
     blood_alcohol_concentration: req.session.blood_alcohol_concentration,
-    stable: req.session.current_stable
+    status: req.session.current_status,
+    msg : message(req.session.current_status)
   };
   res.render("result", data);
 });
 
-function stable(blood_alcohol_concentration) {
-  if (blood_alcohol_concentration < 0.02) {
+function status(blood_alcohol_concentration) {
+  if (blood_alcohol_concentration < 0.01) {
     return "シラフ";
-  } else if (
-    0.02 <= blood_alcohol_concentration &&
-    blood_alcohol_concentration <= 0.04
-  ) {
+  } else if ( 0.01 <= blood_alcohol_concentration && blood_alcohol_concentration <= 0.04) {
     return "爽快期";
-  } else if (
-    0.04 < blood_alcohol_concentration &&
-    blood_alcohol_concentration <= 0.1
-  ) {
+  } else if ( 0.04 < blood_alcohol_concentration && blood_alcohol_concentration <= 0.1) {
     return "ほろ酔い期";
-  } else if (
-    0.1 < blood_alcohol_concentration &&
-    blood_alcohol_concentration <= 0.15
-  ) {
+  } else if (0.1 < blood_alcohol_concentration && blood_alcohol_concentration <= 0.15) {
     return "酩酊初期";
-  } else if (
-    0.15 < blood_alcohol_concentration &&
-    blood_alcohol_concentration <= 0.3
-  ) {
+  } else if (0.15 < blood_alcohol_concentration && blood_alcohol_concentration <= 0.3) {
     return "酩酊極期";
-  } else if (
-    0.3 < blood_alcohol_concentration &&
-    blood_alcohol_concentration <= 0.4
-  ) {
+  } else if (0.3 < blood_alcohol_concentration && blood_alcohol_concentration <= 0.4) {
     return "泥酔期";
   } else {
     return "昏睡期";
+  }
+}
+
+function message(status){
+  switch(status){
+    case 'シラフ':
+      return 'お酒は適量で楽しみましょう。'
+    case '爽快期':
+      return '適度に水も飲みましょう。'
+    case 'ほろ酔い期':
+      return 'そろそろ水を飲みましょう。'
+    case '酩酊初期':
+      return 'ちょっと飲みすぎかも。'
+    case '酩酊極期':
+      return '飲みすぎです。今日はもう飲むのをやめましょう。'
+    case '泥酔期':
+      return '今すぐに飲むのを止めましょう！'
+    case '昏睡期':
+      return 'お前はもう死んでいる'
   }
 }
 

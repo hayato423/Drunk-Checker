@@ -6,15 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>酔いチェッカー：結果</title>
     <link rel="stylesheet" href="/stylesheets/result.css" />
+    <script type="text/javascript" src="javascripts/changeColor.js"></script>
 </head>
 
 <body>
-    <div style="text-align: center;" class="stable">
+    <div style="text-align: center;" class="status">
         <h1>現在の状態
         </h1>
         <p>総摂取アルコール量:<b><%= sum_alcohol_g %></b>g</p>
         <p>現在の血中アルコール濃度は約<b><%= blood_alcohol_concentration %></b>%</p>
-        <p>酔いの程度は<b><%= stable %></b>です</p>
+        <p>酔いの程度は<b><%= status %></b>です</p>
+        <p><font size="5"><%= msg %></font></p>
 
     </div>
     <div style="text-align: center;" class="addition">
@@ -38,12 +40,18 @@
                 </select>
             </p>
             <h2>飲んだ量を入力</h2>
-            <p>参考
+            <p>
                 <table  align="center">
+                    <tr>参考</tr>
                     <tr>
                         <th>ロング缶</th>
                         <td>500ml</td>
                     </tr>
+                    <tr>
+                        <th>缶</th>
+                        <td>350ml</td>
+                    </tr>
+
                     <tr>
                         <th>ジョッキ</th>
                         <td>350ml</td>
@@ -67,7 +75,6 @@
 
         </form>
     </div>
-
 </body>
 
 </html>
