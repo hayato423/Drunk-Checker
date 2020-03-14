@@ -10,31 +10,35 @@ router.get("/", function(req, res, next) {
   }
 });
 
-let weight = 0;
 let alcohol_g = 0;
 let sum_alcohol_g = 0;
 let current_status = "シラフ";
 let blood_alcohol_concentration = 0;
+let weight = 0;
 
-//一度体重を入力していて再接続された場合
 router.get("/result", function(req, res, next) {
-  data = {
-    sum_alcohol_g: req.session.sum_alcohol_g,
-    blood_alcohol_concentration: req.session.blood_alcohol_concentration,
-    status: req.session.current_status,
-    msg : message(req.session.current_status)
-  };
-  res.render("result", data);
+  //体重が未入力ならindexにリダイレクト
+  if (req.session.weight == undefined) {
+    res.redirect('/');
+  } else {
+    data = {
+      sum_alcohol_g: req.session.sum_alcohol_g,
+      blood_alcohol_concentration: req.session.blood_alcohol_concentration,
+      status: req.session.current_status,
+      msg: message(req.session.current_status)
+    };
+    res.render("result", data);
+  }
 });
 
 router.post("/result", function(req, res, next) {
+  //セッションに体重の情報がなかったら（初回アクセス時）
   if (req.session.weight == undefined) {
-    weight = req.body["weight"];
+    req.session.weight = req.body["weight"];
     blood_alcohol_concentration = 0;
     sum_alcohol_g = 0;
     current_status = 'シラフ';
   }
-  req.session.weight = weight;
   if (req.body["percent"] != undefined && req.body["quantity"] != undefined) {
     var percent = Number(req.body["percent"]);
     var drink_quantity = req.body["quantity"];

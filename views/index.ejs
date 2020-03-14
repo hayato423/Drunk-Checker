@@ -9,7 +9,10 @@
   <body>
     <div role="main" style="text-align: center;">
       <h1>酔いチェッカー</h1>
-      <p>血中アルコール濃度から酔いの程度を判定します。</p>
+      <a href="https://twitter.com/hayat999423">製作者Twitter</a>
+      <p>血中アルコール濃度から酔いの程度を判定します。<br>
+      血中アルコール濃度はかなり大雑把に、摂取アルコール量(g)/体内の水分量(体重の2/3)(g)で計算してます。</p>
+      <p>酔いの程度については<a  href="https://www.e-healthnet.mhlw.go.jp/information/dictionary/alcohol/ya-020.html">厚生労働省のサイト</a>を参考にしました。</p>
       <p>体重を入力してスタート</p>
       <form method="POST" action="/result">
         <input type="number" name="weight" required class="textbox">

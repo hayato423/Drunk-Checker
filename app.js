@@ -27,8 +27,7 @@ const session_opt = {
   saveUninitialized : false,
   cookie:{
     httpOnly: true,
-    secure: false,
-    maxAge: 4 * 60 * 60 * 1000
+    secure: false
   }
 };
 app.use(session(session_opt));
