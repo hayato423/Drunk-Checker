@@ -25,9 +25,11 @@ const session_opt = {
   secret: 'idolm@ster',
   resave: false,
   saveUninitialized : false,
+  rolling: true,
   cookie:{
     httpOnly: true,
-    secure: false
+    secure: false,
+    maxAge: 24 * 60 * 60 * 1000
   }
 };
 app.use(session(session_opt));

@@ -73,6 +73,7 @@ router.post("/result", function(req, res, next) {
   res.render("result", data);
 });
 
+
 function status(blood_alcohol_concentration) {
   if (blood_alcohol_concentration < 0.01) {
     return "シラフ";
@@ -109,5 +110,11 @@ function message(status){
       return 'お前はもう死んでいる'
   }
 }
+
+router.get('/reset',function(req,res,next){
+  req.session.destroy(function(err){
+  });
+  res.redirect('/');
+})
 
 module.exports = router;
